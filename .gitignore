@@ -1,0 +1,4 @@
+# 项目排除路径
+/web1/target/
+/web2/target/
+/webserver/target/
