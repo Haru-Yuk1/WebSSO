@@ -6,10 +6,9 @@ import entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.UUID;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -32,13 +31,42 @@ public class LoginServlet extends HttpServlet {
 //            resp.sendRedirect("login.jsp");
         }
         else{
-            //导航去主页
-            resp.sendRedirect("index.jsp");
+            //使用CAS方案
 
+            //创建Session并记录登录状态
+            HttpSession session = req.getSession();
+            session.setAttribute("username",user.getUsername());
+            session.setAttribute("loginDate",user.getLoginDate());
+            System.out.println(req.getSession().getId());
+
+            //写下SSO域下的Cookie
+
+
+            //生成随机Token，处理生成32位随机连续字符串
+            String Token = UUID.randomUUID().toString().replace("-", "");
+            //生成cookie
+            Cookie cookie = new Cookie("CAS-TGC",Token);
+            cookie.setPath("/");
+            resp.addCookie(cookie);
+
+            //生成ST
+            String st=UUID.randomUUID().toString().replace("-","");
 
             //将用户信息加入缓存
             SystemCache.setCurrentUser(user);
             SystemCache.getRegisteredUsers().add(user);
+
+            //导航去主页
+            resp.sendRedirect("index.jsp");
+
+
+
+//            //创建cookie,用于
+//            Cookie cookie=new Cookie("username",username);
+//
+//            //设置cookie的有效时间
+//            cookie.setMaxAge(60*60*24);
+
         }
     }
 

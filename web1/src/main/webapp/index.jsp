@@ -2,6 +2,7 @@
 <%@ page import="entity.User" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="cache.SystemCache" %>
+<%@ page import="java.util.HashMap" %>
 <%--
   Created by IntelliJ IDEA.
   User: 13664
@@ -29,6 +30,7 @@
     <%
       String username = request.getParameter("username");
       String loginDate= request.getParameter("loginDate");
+//      SystemCache.getUserLoginDateMap().put(username, loginDate);
 //        if (currentUser != null) {
 //          SystemCache.setCurrentUser(currentUser);
 //          SystemCache.getRegisteredUsers().add(currentUser);
