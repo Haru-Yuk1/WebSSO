@@ -1,6 +1,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="entity.User" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="cache.SystemCache" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%--
   Created by IntelliJ IDEA.
   User: 13664
@@ -11,10 +13,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Web1</title>
+    <title>Web2</title>
 </head>
 <body>
-<h2 style="text-align: center">Welcome to web1</h2>
+<h2 style="text-align: center">Welcome to web2</h2>
 
 <table>
     <thead>
@@ -26,22 +28,27 @@
     </thead>
     <tbody>
         <%
-      ArrayList<User> users = new ArrayList<>();
-        users.add(new User("张三", "123", new Date()));
-        users.add(new User("李四", "123", new Date()));
-        users.add(new User("王五", "123", new Date()));
+      ArrayList<User> users = SystemCache.getRegisteredUsers();
+      //格式化日期
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (User user : users) {
 
     %>
     <tr>
         <td><%=user.getUsername()%></td>
-        <td><%=user.getLoginDate()%></td>
+        <td><%=sdf.format(user.getLoginDate())%></td>
     </tr>
         <%
       }
     %>
 </table>
-<button onclick="window.location.href='/web1'">前往Web1</button>
+<div class="button-container">
+    <form action="JumpServlet" method="post">
+        <button type="submit" name="action" value="web1">前往Web1</button>
+        <button type="submit" name="action" value="webserver">前往WebServer</button>
+        <button type="submit" name="action" value="logout">登出</button>
+    </form>
+</div>
 </body>
 <style>
     table {
@@ -61,19 +68,23 @@
         color: white;
         font-weight: bold;
     }
-    button{
-
+    .button-container {
+        display: flex;
+        justify-content: center;
         margin-top: 20px;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
+    }
+    button {
         background-color: #2196F3;
         color: white;
-        width: 100px;
-        height: 30px;
+        width: 150px;
+        height: 50px;
+        margin: 0 10px;
         border: 1px solid #ddd;
+        cursor: pointer;
 
     }
-
+    button:hover {
+        background-color: #1976D2;
+    }
 </style>
 </html>

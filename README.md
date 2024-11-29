@@ -26,7 +26,42 @@
 
 ## 三、实验过程或算法
 
-### 实现方案
+### [CAS（Central Authentication Service）]([CAS单点登录(一)——初识SSO-CSDN博客](https://blog.csdn.net/Anumbrella/article/details/80821486))
 
-#### CAS（Central Authentication Service）
+CAS是中央认证服务，每个单点登录的架构都需要实现一个CAS。
 
+[GitHub](https://github.com/apereo/cas)
+
+#### 一些概念
+
+* 服务标识：每个系统或应用都会从CAS获得一个唯一标识
+* TGT（Ticket Granting Ticket）：是在成功通过CAS认证后通过cookie的形式发放给客户端的，我们可以把它比作游乐园的通票，有了它就可以畅玩游乐园中的所有项目。
+
+* ST（Service Ticket）：这好比是某个具体游玩项目的门票，需要通过通票TGT来领取这个
+
+#### 具体流程
+
+
+
+CAS官网上的标准流程，具体流程如下：
+
+1. 用户访问app系统，app系统是需要登录的，但用户现在没有登录。
+2. 跳转到(重定向到)CAS server，即SSO登录系统, SSO系统也没有登录，弹出用户登录页。
+3. 用户填写用户名、密码，SSO系统进行认证后，将登录状态写入SSO的session，浏览器（Browser）中写入SSO域下的Cookie。
+4. SSO系统登录完成后会生成一个ST（Service Ticket），然后跳转到app系统，同时将ST作为参数传递给app系统。
+5. app系统拿到ST后，从后台向SSO发送请求，验证ST是否有效。
+6. 验证通过后，app系统将登录状态写入session并设置app域下的Cookie。
+
+![image-20241126193626398](README/image-20241126193626398.png)
+
+至此，跨域单点登录就完成了。以后我们再访问app系统时，app就是登录的。接下来，我们再看看访问app2系统时的流程。
+
+1. 用户访问app2系统，app2系统没有登录，跳转到SSO。
+2. 由于SSO已经登录了，不需要重新登录认证。
+3. SSO生成ST，浏览器跳转到app2系统，并将ST作为参数传递给app2。
+4. app2拿到ST，后台访问SSO，验证ST是否有效。
+5. 验证成功后，app2将登录状态写入session，并在app2域下写入Cookie。
+
+这样，app2系统不需要走登录流程，就已经是登录了。SSO，app和app2在不同的域，它们之间的session不共享也是没问题的。
+
+![image-20241126193701365](README/image-20241126193701365.png)

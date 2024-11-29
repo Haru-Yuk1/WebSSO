@@ -28,9 +28,9 @@
     </thead>
     <tbody>
         <%
-      ArrayList<User> users = SystemCache.getInstance().getRegisteredUsers();
+      ArrayList<User> users = SystemCache.getRegisteredUsers();
       //格式化日期
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (User user : users) {
 
     %>
@@ -47,6 +47,7 @@
     <form action="JumpServlet" method="post">
         <button type="submit" name="action" value="web1">前往Web1</button>
         <button type="submit" name="action" value="web2">前往Web2</button>
+        <button type="submit" name="action" value="logout">登出</button>
     </form>
 </div>
 </body>
@@ -76,8 +77,8 @@
     button {
         background-color: #2196F3;
         color: white;
-        width: 100px;
-        height: 30px;
+        width: 150px;
+        height: 50px;
         margin: 0 10px;
         border: 1px solid #ddd;
         cursor: pointer;

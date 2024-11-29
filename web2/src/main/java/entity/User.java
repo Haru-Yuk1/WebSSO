@@ -13,6 +13,14 @@ public class User {
         this.password = password;
         this.loginDate = loginDate;
     }
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+    public User(String username, Date loginDate) {
+        this.username = username;
+        this.loginDate = loginDate;
+    }
 
     public String getUsername() {
         return username;

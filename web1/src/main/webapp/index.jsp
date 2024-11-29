@@ -3,6 +3,7 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="cache.SystemCache" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%--
   Created by IntelliJ IDEA.
   User: 13664
@@ -28,26 +29,27 @@
     </thead>
     <tbody>
     <%
-      String username = request.getParameter("username");
-      String loginDate= request.getParameter("loginDate");
-//      SystemCache.getUserLoginDateMap().put(username, loginDate);
-//        if (currentUser != null) {
-//          SystemCache.setCurrentUser(currentUser);
-//          SystemCache.getRegisteredUsers().add(currentUser);
-//        }
-//      ArrayList<User> users = SystemCache.getRegisteredUsers();
-//        for (User user : users) {
+      ArrayList<User> users = SystemCache.getRegisteredUsers();
+      //格式化日期
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (User user : users) {
 
     %>
     <tr>
-      <td><%=username%></td>
-      <td><%=loginDate%></td>
+      <td><%=user.getUsername()%></td>
+      <td><%=sdf.format(user.getLoginDate())%></td>
     </tr>
     <%
-//      }
+      }
     %>
   </table>
-    <button onclick="window.location.href='/web2'">前往Web2</button>
+    <div class="button-container">
+      <form action="JumpServlet" method="post">
+        <button type="submit" name="action" value="web2">前往Web2</button>
+        <button type="submit" name="action" value="webserver">前往WebServer</button>
+        <button type="submit" name="action" value="logout">登出</button>
+      </form>
+    </div>
   </body>
 <style>
   table {
@@ -67,18 +69,23 @@
     color: white;
     font-weight: bold;
   }
-  button{
-
+  .button-container {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  }
+  button {
     background-color: #2196F3;
     color: white;
-    width: 100px;
-    height: 30px;
+    width: 150px;
+    height: 50px;
+    margin: 0 10px;
     border: 1px solid #ddd;
-  }
+    cursor: pointer;
 
+  }
+  button:hover {
+    background-color: #1976D2;
+  }
 </style>
 </html>

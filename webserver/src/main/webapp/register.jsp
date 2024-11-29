@@ -1,4 +1,4 @@
-<%@ page import="cache.SystemCache" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: 13664
   Date: 2024/11/25
@@ -8,49 +8,35 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>登录</title>
+    <title>注册</title>
 </head>
 <body>
 <%
     String backUrl = request.getParameter("backUrl");
     String wrongInfo=(String)request.getAttribute("wrongInfo");
-    String TGT=null;
-    Cookie[] cookies=request.getCookies();
-    if (cookies!=null){
-        for (Cookie cookie:cookies){
-            System.out.println(cookie.getName());
-            if (cookie.getName().equals("TGT")&& SystemCache.getTgtCache().containsKey(cookie.getValue())){
-                TGT=cookie.getValue();      //获取cookie
-                cookie.setMaxAge(0);        //删除cookie
-                response.addCookie(cookie); //将删除后的cookie添加到response
-            }
-        }
-    }
-    //如果TGT不为空，说明用户已经登录，直接跳转到LoginServlet
-    if (TGT!=null){
-        request.getRequestDispatcher("LoginServlet").forward(request,response);
-    }
     System.out.println(wrongInfo);
     if (wrongInfo!=null){
 %>
-    <script>
-        alert("<%=wrongInfo%>");
-    </script>
+<script>
+    alert("<%=wrongInfo%>");
+</script>
 <%
     }
 %>
 
-<div class="login">
-    <h2>登录</h2>
-    <form action="LoginServlet" method="post">
+<div class="register">
+    <h2>注册</h2>
+    <form action="RegisterServlet" method="post">
         <label for="username">用户名</label>
         <input type="text" id="username" name="username" required/>
         <label for="password">密码</label>
         <input type="password" id="password" name="password" required/>
-        <input type="hidden" name="backUrl" value="<%=backUrl%>"/>
-        <button type="submit">登录</button>
+        <label for="confirmPassword">确认密码</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required/>
+<%--        <input type="hidden" name="backUrl" value="<%=backUrl%>"/>--%>
+        <button type="submit">注册</button>
     </form>
-    <p>没有账号？<a href="register.jsp">注册</a></p>
+    <a href="login.jsp">已有账号？点击登录</a>
 </div>
 </body>
 <style>
@@ -59,7 +45,7 @@
         font-family: Arial, sans-serif;
         font-size: 14px;
     }
-    .login {
+    .register {
         width: 400px;
         margin: 100px auto;
         background: #FFF;

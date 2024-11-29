@@ -16,20 +16,17 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 @WebFilter(urlPatterns = { "/index.jsp"})
 public class LoginFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        System.out.println("Web1LoginFilter");
+        System.out.println("Web2LoginFilter");
 
         //检查当前请求有没有会话，如果没有会话，则返回null，而不是创建一个新会话
         HttpSession session=req.getSession(false);
         if (session!=null&& session.getAttribute("username")!=null){
-            System.out.println(session.getId());
             chain.doFilter(req, res);//用户已登录，放行
             return;
         }
@@ -46,7 +43,7 @@ public class LoginFilter extends HttpFilter {
                 System.out.println("username="+username);
                 System.out.println("loginDate="+loginDate);
                 if (username!=null){
-                    session=req.getSession(true);
+                    session=req.getSession();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = sdf.parse(loginDate);
                     //用户登录成功，将用户信息存入缓存
