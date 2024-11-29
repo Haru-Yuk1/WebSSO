@@ -34,6 +34,15 @@ public class JumpServlet extends HttpServlet {
             System.out.println("正在登出");
             resp.sendRedirect("http://localhost:8080/webserver/LogoutServlet");
         }
+        else if (action.equals("disable")){
+            System.out.println("正在禁用用户");
+
+            resp.sendRedirect("http://localhost:8080/webserver/DisableUserServlet");
+        } else if (action.equals("viewLoginHistory")){
+            System.out.println("查看登录历史");
+            resp.sendRedirect("http://localhost:8080/webserver/viewLoginHistory.jsp");
+
+        }
     }
 
     @Override

@@ -31,7 +31,7 @@
     <%
       ArrayList<User> users = SystemCache.getRegisteredUsers();
       //格式化日期
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (User user : users) {
 
     %>

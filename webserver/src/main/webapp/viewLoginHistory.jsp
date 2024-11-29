@@ -1,23 +1,21 @@
+<%@ page import="entity.LoginHistory" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="entity.User" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="static dao.LoginHistoryManager.viewLoginHistory" %>
 <%@ page import="cache.SystemCache" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%--
+<%@ page import="java.text.SimpleDateFormat" %><%--
   Created by IntelliJ IDEA.
   User: 13664
-  Date: 2024/11/24
-  Time: 下午4:24
+  Date: 2024/11/29
+  Time: 下午8:04
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>SSO Server</title>
+    <title>查看历史登录记录</title>
 </head>
 <body>
-<h2 style="text-align: center">Welcome to SSO Server</h2>
-
+<h2 style="text-align: center">查看历史登录记录</h2>
 <table>
     <thead>
     <tr>
@@ -28,34 +26,21 @@
     </thead>
     <tbody>
         <%
-      ArrayList<User> users = SystemCache.getRegisteredUsers();
+      ArrayList<LoginHistory> loginHistories = viewLoginHistory(SystemCache.getCurrentUser().getUsername());
       //格式化日期
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        for (User user : users) {
+        for (LoginHistory loginHistory : loginHistories) {
 
     %>
     <tr>
-        <td><%=user.getUsername()%></td>
-        <td><%=sdf.format(user.getLoginDate())%></td>
+        <td><%=loginHistory.getUsername()%></td>
+        <td><%=sdf.format(loginHistory.getLoginDate())%></td>
     </tr>
         <%
       }
     %>
 </table>
-
-<div class="button-container">
-    <form action="JumpServlet" method="post">
-        <button type="submit" name="action" value="web1">前往Web1</button>
-        <button type="submit" name="action" value="web2">前往Web2</button>
-    </form>
-</div>
-<div class="button-container">
-    <form action="JumpServlet" method="post">
-        <button type="submit" name="action" value="logout">登出</button>
-        <button type="submit" name="action" value="disable">禁用</button>
-        <button type="submit" name="action" value="viewLoginHistory">查看登录历史</button>
-    </form>
-</div>
+<button onclick="location.href='index.jsp'">返回</button>
 </body>
 <style>
     table {
@@ -75,18 +60,16 @@
         color: white;
         font-weight: bold;
     }
-    .button-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
+
     button {
         background-color: #2196F3;
         color: white;
         width: 150px;
         height: 50px;
-        margin: 0 10px;
+        margin: 20px auto;
         border: 1px solid #ddd;
+        display: block;
+        text-align: center;
         cursor: pointer;
 
     }

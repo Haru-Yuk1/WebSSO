@@ -1,6 +1,7 @@
 package Servlet;
 
 import cache.SystemCache;
+import dao.LoginHistoryManager;
 import dao.UserManager;
 import entity.User;
 
@@ -8,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.UUID;
 
 @WebServlet("/LoginServlet")
@@ -51,6 +53,15 @@ public class LoginServlet extends HttpServlet {
         }
 
         //判断是否是数据库中的合法用户
+        int isDisabled=UserManager.isDisabled(username);
+        if (isDisabled==1){
+            //设置输入错误弹窗内容并记录url
+            req.setAttribute("wrongInfo","用户已被禁用！！！");
+            //请求转发到登录页
+            req.getRequestDispatcher("/login.jsp").forward(req,resp);
+            return;
+        }
+
         User user = UserManager.JudgeUser(username,password);
         if (user==null){
             //设置输入错误弹窗内容并记录url
@@ -90,6 +101,8 @@ public class LoginServlet extends HttpServlet {
             //将用户信息加入缓存
             SystemCache.setCurrentUser(user);
             SystemCache.getRegisteredUsers().add(user);
+            //将用户登录信息加入历史记录
+            LoginHistoryManager.recordLogin(user.getUsername(),user.getLoginDate());
 
             //如果是从web1或web2跳转过来的
             if (backUrl!=null&&!backUrl.trim().isEmpty()&& !backUrl.equals("null")){
