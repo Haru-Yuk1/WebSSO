@@ -61,9 +61,9 @@ public class DBConnect {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(System.getProperty("user.dir"));
-        Connection conn=getConn();
-
-    }
+//    public static void main(String[] args) {
+//        System.out.println(System.getProperty("user.dir"));
+//        Connection conn=getConn();
+//
+//    }
 }

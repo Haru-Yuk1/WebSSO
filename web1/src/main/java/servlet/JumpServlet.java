@@ -18,7 +18,6 @@ public class JumpServlet extends HttpServlet {
         String action=req.getParameter("action");
         System.out.println("action:"+action);
 
-        User currentUser = SystemCache.getCurrentUser();
         if(action.equals("webserver")){
             System.out.println("正在跳转到webServer");
             //不能请求转发，因为web1是另一个web服务器

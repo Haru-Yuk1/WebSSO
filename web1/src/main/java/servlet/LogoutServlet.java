@@ -16,16 +16,18 @@ public class LogoutServlet extends HttpServlet {
         //删除session
 
         HttpSession session = req.getSession(false);
+        //删除缓存
         System.out.println(session);
+        for (User user:SystemCache.getRegisteredUsers()){
+            if (user.getUsername().equals(session.getAttribute("username"))){
+                SystemCache.getRegisteredUsers().remove(user);
+                break;
+            }
+        }
         if (session != null) {
             System.out.println("正在删除web1登录状态");
             session.invalidate();
         }
-
-        //删除缓存
-        SystemCache.getRegisteredUsers().remove(SystemCache.getCurrentUser());
-        SystemCache.setCurrentUser(null);
-
 
     }
 

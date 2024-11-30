@@ -16,8 +16,7 @@ import static dao.UserManager.disableUser;
 public class DisableUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = SystemCache.getCurrentUser();
-        disableUser(user.getUsername());
+        disableUser(req.getSession().getAttribute("username").toString());
         System.out.println("用户已禁用");
         resp.sendRedirect("http://localhost:8080/webserver/LogoutServlet");
 

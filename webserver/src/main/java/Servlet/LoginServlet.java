@@ -80,7 +80,7 @@ public class LoginServlet extends HttpServlet {
 //            System.out.println(req.getSession().getId());
 
 
-            if (TGT!=null){
+            if (TGT!=null && SystemCache.getTgtCache().containsKey(TGT)){
                 //生成ST并缓存
                 String st=UUID.randomUUID().toString().replace("-","");
                 SystemCache.getStCache().put(st,user);
@@ -99,7 +99,6 @@ public class LoginServlet extends HttpServlet {
             //将TGT加入缓存
             SystemCache.getTgtCache().put(tgt,user);
             //将用户信息加入缓存
-            SystemCache.setCurrentUser(user);
             SystemCache.getRegisteredUsers().add(user);
             //将用户登录信息加入历史记录
             LoginHistoryManager.recordLogin(user.getUsername(),user.getLoginDate());

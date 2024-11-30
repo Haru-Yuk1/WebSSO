@@ -48,7 +48,6 @@ public class LoginFilter extends HttpFilter {
                     Date date = sdf.parse(loginDate);
                     //用户登录成功，将用户信息存入缓存
                     User user=new User(username,date);
-                    SystemCache.setCurrentUser(user);
                     SystemCache.getRegisteredUsers().add(user);
                     session.setAttribute("username",username);
 //                    session.setAttribute("loginDate",loginDate);

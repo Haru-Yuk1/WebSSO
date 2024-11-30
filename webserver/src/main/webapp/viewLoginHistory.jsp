@@ -26,7 +26,7 @@
     </thead>
     <tbody>
         <%
-      ArrayList<LoginHistory> loginHistories = viewLoginHistory(SystemCache.getCurrentUser().getUsername());
+      ArrayList<LoginHistory> loginHistories = viewLoginHistory(request.getSession().getAttribute("username").toString());
       //格式化日期
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (LoginHistory loginHistory : loginHistories) {
